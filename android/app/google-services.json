@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "632509565147",
+    "project_id": "verimadenciligi-365117",
+    "storage_bucket": "verimadenciligi-365117.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:632509565147:android:fa80f0bbba957c8c5524fe",
+        "android_client_info": {
+          "package_name": "com.zexly.verimadenciligi.verimadenciligi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "632509565147-i78hs2csi19koq02nhnb37q92lksvh39.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAD2SeT9bColLSiDp5asBAilu_-y84dKNQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "632509565147-i78hs2csi19koq02nhnb37q92lksvh39.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
