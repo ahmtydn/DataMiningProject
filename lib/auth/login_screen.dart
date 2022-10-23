@@ -1,6 +1,5 @@
 
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:verimadenciligi/auth/googleSignIn.dart';
 
 
@@ -30,8 +29,7 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(width: 15,),
               GestureDetector(
                 onTap: (){
-                  final provider=Provider.of<GoogleSignInProvider>(context,listen: false);
-                  provider.googleLogin();
+                  AuthServices().googleLogin();
                 },
                 child: Container(
                   height: size.height / 15,

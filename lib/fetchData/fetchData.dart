@@ -1,6 +1,7 @@
 
 import 'package:health/health.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 class fetchData {
   HealthFactory health = HealthFactory();
   bool requested=false;
@@ -139,5 +140,16 @@ class fetchData {
         return null;
       }
     }
+  }
+
+
+  Future<String?> ageReadSharedPreferences() async{
+    var sharedPreferences = await SharedPreferences.getInstance();
+    return sharedPreferences.getString("age");
+  }
+
+  Future<String?> genderReadSharedPreferences() async{
+    var sharedPreferences = await SharedPreferences.getInstance();
+    return sharedPreferences.getString("gender");
   }
 }

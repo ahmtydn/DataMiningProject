@@ -1,12 +1,13 @@
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:verimadenciligi/appUsage.dart';
-import 'package:verimadenciligi/appsCategory.dart';
+import 'package:verimadenciligi/apps/appUsage.dart';
+import 'package:verimadenciligi/apps/appsCategory.dart';
 import 'package:verimadenciligi/auth/googleSignIn.dart';
 import 'package:verimadenciligi/auth/login_screen.dart';
 import 'package:verimadenciligi/fetchData/fetchData.dart';
-
+import 'package:verimadenciligi/model/dataModel.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -16,25 +17,64 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  var steps, height, glucose, weight, _body_index, _energyBurned;
-  Future<void> fetchDataMain() async {
-    await fetchData().authorizationCheck();
-    var step = await fetchData().fetchStepData();
-    var heig = await fetchData().fetchHeight();
-    var wei = await fetchData().fetchWeight();
-    var energyBurned = await fetchData().fetchEnergyBurned();
+  DataModel? _dataModel;
+  bool isLoading = true;
 
-    // kg/m^2
-    var body_index = await fetchData().fetchBodyIndex();
-    // var blood_glucose = await fetchData().fetchBloodGLucose();
+  Future<void> fetchsData() async {
+    await fetchData().authorizationCheck();
+    var _steps,
+        _height,
+        _weight,
+        _energyBurned,
+        _body_mass_index,
+        _age,
+        _genders,
+        _phoneModel;
+
+    await fetchData()
+        .fetchStepData()
+        .then((value) => _steps = value.toString());
+    await fetchData()
+        .fetchHeight()
+        .then((value) => _height = value.toString().substring(0, 4));
+    await fetchData().fetchWeight().then((value) => _weight = value.toString());
+    await fetchData()
+        .fetchEnergyBurned()
+        .then((value) => _energyBurned = value.toString());
+    await fetchData()
+        .fetchBodyIndex()
+        .then((value) => _body_mass_index = value.toString());
+    await fetchData()
+        .ageReadSharedPreferences()
+        .then((value) => _age = value.toString());
+    await fetchData()
+        .genderReadSharedPreferences()
+        .then((value) => _genders = value.toString());
+    await deviceInfoGet().then((value) => _phoneModel = value.toString());
+
+    _dataModel = DataModel(
+      stepsTotal: _steps,
+      height: _height,
+      weight: _weight,
+      energyBurned: _energyBurned,
+      body_mass_index: _body_mass_index,
+      age: _age,
+      gender: _genders,
+      phoneModel: _phoneModel,
+    );
+  }
+
+  Future<void> fetchDataMain() async {
+    await fetchsData();
     setState(() {
-      steps = step;
-      height = heig.toString().substring(0, 4);
-      // glucose = blood_glucose.toString().substring(0, 4);
-      weight = wei.toString();
-      _body_index = body_index.toString().substring(0, 5);
-      _energyBurned = energyBurned.toString();
+      isLoading = false;
     });
+  }
+
+  Future<String> deviceInfoGet() async {
+    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+    AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+    return androidInfo.model;
   }
 
   @override
@@ -46,142 +86,137 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: StreamBuilder(
-        stream: FirebaseAuth.instance.authStateChanges(),
-        builder: (context, snapshot) {
-          if(snapshot.connectionState==ConnectionState.waiting){
-            return Center(child: CircularProgressIndicator(),);
-          }
-          else if(snapshot.hasData){
-            return LoginedInWidget(steps: steps,height: height,glucose: glucose,weight: weight,body_index: _body_index,energyBurned: _energyBurned,);
-          }
-          else if(snapshot.hasError){
-            return Center(child: Text("Bir hata oluştu!"),);
-          }
-          else{
-            return LoginScreen();
-          }
-        }
-      ),
-    );
+        body: isLoading == true
+            ? Center(
+                child: CircularProgressIndicator(),
+              )
+            : LoginedInWidget(
+                model: _dataModel!,
+              ));
   }
 }
+
 class LoginedInWidget extends StatelessWidget {
-  final steps;
-  final height;
-  final glucose;
-  final weight;
-  final body_index;
-  final energyBurned;
-
-  LoginedInWidget({this.steps, this.height, this.glucose, this.weight,
-       this.body_index, this.energyBurned});
-
-  final FirebaseAuth firebaseAuth=FirebaseAuth.instance;
+  DataModel model;
+  LoginedInWidget({required this.model});
 
   @override
   Widget build(BuildContext context) {
-    final user=FirebaseAuth.instance.currentUser!;
-    final provider=Provider.of<GoogleSignInProvider>(context,listen: true);
-    var genderNew=provider.gender;
-    if(genderNew=="Male")
-      {
-        genderNew="Erkek";
-      }
-    else if(genderNew=="Female"){
-      genderNew="Kadın";
-    }
     return Scaffold(
       appBar: AppBar(
         title: Text("Veri Madenciliği"),
       ),
-      body: Container(
-        alignment: Alignment.center,
-        color: Colors.blueGrey.shade900,
+      body: SingleChildScrollView(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            TextButton(onPressed: (){
-              final provider=Provider.of<GoogleSignInProvider>(context,listen: false);
-              provider.logout();
-            }, child: Text("Çıkış")),
-            SizedBox(height: 32,),
-            CircleAvatar(
-              radius: 40,
-              backgroundImage: NetworkImage(user.photoURL!),
-            ),
-            SizedBox(height: 8,),
-            Text("İsim: "+user.displayName.toString(),style: TextStyle(color: Colors.amber,fontSize: 25),),
-            Text("Cinsiyet: ${genderNew}",style: TextStyle(color: Colors.amber,fontSize: 25),),
-
-            Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    "Günlük Adım Sayısı: ${steps==null?0:steps.toString()}",
-                    style: TextStyle(fontSize: 25),
+            Container(
+              alignment: Alignment.center,
+              color: Colors.blueGrey.shade900,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  TextButton(
+                      onPressed: () {
+                        AuthServices().logout();
+                      },
+                      child: Text("Çıkış")),
+                  const SizedBox(
+                    height: 32,
                   ),
-                )),
-            SizedBox(
-              height: 10,
-            ),
-            Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    "Boy: ${height.toString()}",
-                    style: TextStyle(fontSize: 25),
+                  SizedBox(
+                    height: 8,
                   ),
-                )),
-            SizedBox(
-              height: 10,
-            ),
-            Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    "Vücut Kitle Indeksi: ${body_index.toString()}",
-                    style: TextStyle(fontSize: 25),
+                  Text(
+                    "Yaş: ${model.age}",
+                    style: TextStyle(color: Colors.amber, fontSize: 25),
                   ),
-                )),
-            SizedBox(
-              height: 10,
-            ),
-            Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    "Kilo: ${weight.toString()}",
-                    style: TextStyle(fontSize: 25),
+                  Text(
+                    "Cinsiyet: ${model.gender}",
+                    style: TextStyle(color: Colors.amber, fontSize: 25),
                   ),
-                )),
-            SizedBox(
-              height: 10,
-            ),
-            Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    "Harcanan Enerji: ${energyBurned.toString()}",
-                    style: TextStyle(fontSize: 25),
+                  Card(
+                      child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      "Günlük Adım Sayısı: ${model.stepsTotal == null ? 0 : model.stepsTotal.toString()}",
+                      style: TextStyle(fontSize: 25),
+                    ),
+                  )),
+                  SizedBox(
+                    height: 10,
                   ),
-                )),
-            SizedBox(
-              height: 10,
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => AppUsageClass()));
-              },
-              child: Text("Uygulama Süreleri"),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => AppsCategory())) ;
-              },
-              child: Text("Uygulamaların Kategorileri"),
+                  Card(
+                      child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      "Boy: ${model.height.toString()}",
+                      style: TextStyle(fontSize: 25),
+                    ),
+                  )),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Card(
+                      child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      "Vücut Kitle Indeksi: ${model.body_mass_index.toString()}",
+                      style: TextStyle(fontSize: 25),
+                    ),
+                  )),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Card(
+                      child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      "Kilo: ${model.weight.toString()}",
+                      style: TextStyle(fontSize: 25),
+                    ),
+                  )),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Card(
+                      child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      "Harcanan Enerji: ${model.energyBurned.toString()}",
+                      style: TextStyle(fontSize: 25),
+                    ),
+                  )),
+                  Card(
+                      child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      "Telefon Modeli: ${model.phoneModel.toString()}",
+                      style: TextStyle(fontSize: 25),
+                    ),
+                  )),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => AppUsageClass()));
+                    },
+                    child: Text("Uygulama Süreleri"),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => AppsCategory()));
+                    },
+                    child: Text("Uygulamaların Kategorileri"),
+                  ),
+                ],
+              ),
             ),
           ],
         ),

@@ -17,16 +17,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context)=>GoogleSignInProvider(),
-      child: MaterialApp(
+    return MaterialApp(
         title: 'Veri Seti',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
         home: SplashScreen(),
-      ),
     );
   }
 }

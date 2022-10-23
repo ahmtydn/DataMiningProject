@@ -44,6 +44,8 @@ dependencies:
   shimmer_animation: ^2.1.0+1
   app_usage: ^2.0.0
   provider: any
+  device_info_plus: ^7.0.1
+  shared_preferences: ^2.0.15
   http: any
 
   # The following adds the Cupertino Icons font to your application.

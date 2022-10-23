@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "632509565147-skqg42en7nveeg512if4hc96mimu6pp4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.zexly.verimadenciligi.verimadenciligi",
+            "certificate_hash": "98c63bda6fcea84d96ed3ea6d99e37a600dec15e"
+          }
+        },
+        {
           "client_id": "632509565147-i78hs2csi19koq02nhnb37q92lksvh39.apps.googleusercontent.com",
           "client_type": 3
         }
