@@ -1,11 +1,12 @@
+import 'dart:convert';
+import 'package:device_apps/device_apps.dart';
+import 'package:http/http.dart' as http;
+import 'package:app_usage/app_usage.dart';
 import 'package:device_info_plus/device_info_plus.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:verimadenciligi/apps/appUsage.dart';
-import 'package:verimadenciligi/apps/appsCategory.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:verimadenciligi/auth/googleSignIn.dart';
-import 'package:verimadenciligi/auth/login_screen.dart';
 import 'package:verimadenciligi/fetchData/fetchData.dart';
 import 'package:verimadenciligi/model/dataModel.dart';
 
@@ -17,9 +18,19 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  //#region definitions
   DataModel? _dataModel;
   bool isLoading = true;
+  DatabaseReference? referenceData;
+  DatabaseReference? referenceChild;
+  List<InfoAppUse> _infosApps = [];
+  List<AppsCategory> _categoryApps = [];
+  List<AppUsageInfo> infoList = [];
+  List<Application> apps = [];
+  String? dataID;
+  //#endregion
 
+  //#region  Fetching
   Future<void> fetchsData() async {
     await fetchData().authorizationCheck();
     var _steps,
@@ -51,17 +62,23 @@ class _HomePageState extends State<HomePage> {
         .genderReadSharedPreferences()
         .then((value) => _genders = value.toString());
     await deviceInfoGet().then((value) => _phoneModel = value.toString());
+    DateTime time = DateTime.now();
 
     _dataModel = DataModel(
       stepsTotal: _steps,
       height: _height,
       weight: _weight,
       energyBurned: _energyBurned,
-      body_mass_index: _body_mass_index,
+      bodyMassIndex: _body_mass_index,
       age: _age,
       gender: _genders,
       phoneModel: _phoneModel,
+      infoAppUse: _infosApps,
+      saveTime: time,
+      appsCategory: _categoryApps,
     );
+
+    save();
   }
 
   Future<void> fetchDataMain() async {
@@ -74,11 +91,94 @@ class _HomePageState extends State<HomePage> {
   Future<String> deviceInfoGet() async {
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+
     return androidInfo.model;
   }
 
+  Future<void> getCetogrys() async {
+    apps = await DeviceApps.getInstalledApplications();
+    List.generate(
+        apps.length,
+        (index) => _categoryApps.add(AppsCategory(
+            appName: apps[index].appName.toString(),
+            category: apps[index].category.name.toString())));
+  }
+
+  Future<void> save() async {
+    await dataSave();
+  }
+
+  Future<void> dataSave() async {
+    DateTime _time = DateTime.now();
+    String nowTime="${_time.day}/${_time.month}/${_time.year}";
+    print("Şimdiki zaman: $nowTime");
+    bool sharedPermission=await checkSharedPrefences(nowTime);
+    if(!sharedPermission){
+
+
+      var jsonData = jsonEncode(_dataModel!);
+      var url =
+          "https://verimadenciligi-365117-default-rtdb.firebaseio.com/dataApps.json";
+      var httpClient = http.Client();
+      var response = await httpClient.post(Uri.parse(url), body: jsonData);
+      var id=response.body.substring(9,29);
+      await removeShared();
+      saveSharedPrefences(dataID: id,time: nowTime);
+      print("response id: ${id}");
+    }
+    else{
+      var jsonData = jsonEncode(_dataModel!);
+      print(dataID);
+      var url =
+          "https://verimadenciligi-365117-default-rtdb.firebaseio.com/dataApps/${dataID}.json";
+      var httpClient = http.Client();
+      await httpClient.put(Uri.parse(url), body: jsonData);
+    }
+
+  }
+
+  Future<void>removeShared() async {
+    var sharedPreferences = await SharedPreferences.getInstance();
+    sharedPreferences.remove("time");
+    sharedPreferences.remove("dataID");
+  }
+
+  Future<bool> checkSharedPrefences(String nowDate) async {
+   var sharedPreferences = await SharedPreferences.getInstance();
+   var time=sharedPreferences.getString("time");
+   dataID=sharedPreferences.getString("dataID");
+   if(time!=null&&dataID!=null&&time==nowDate){
+     return true;
+   }else{
+     return false;
+   }
+  }
+
+  Future<void> saveSharedPrefences({String? dataID,String? time}) async {
+    var sharedPreferences = await SharedPreferences.getInstance();
+    sharedPreferences.setString("time", time!);
+    sharedPreferences.setString("dataID", dataID!);
+  }
+
+  void getUsageStats() async {
+    try {
+      DateTime now = new DateTime.now();
+      DateTime startDate = DateTime(now.year, now.month, now.day);
+      infoList = await AppUsage.getAppUsage(startDate, now);
+      List.generate(
+          infoList.length,
+          (index) => _infosApps.add(InfoAppUse(
+              appName: infoList[index].appName.toString(),
+              appUseTime: infoList[index].usage.toString())));
+    } on AppUsageException catch (exception) {
+      print(exception);
+    }
+  }
+//#endregion
   @override
   void initState() {
+    getUsageStats();
+    getCetogrys();
     fetchDataMain();
     super.initState();
   }
@@ -103,124 +203,12 @@ class LoginedInWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.blueGrey.shade900,
       appBar: AppBar(
         title: Text("Veri Madenciliği"),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              alignment: Alignment.center,
-              color: Colors.blueGrey.shade900,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  TextButton(
-                      onPressed: () {
-                        AuthServices().logout();
-                      },
-                      child: Text("Çıkış")),
-                  const SizedBox(
-                    height: 32,
-                  ),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  Text(
-                    "Yaş: ${model.age}",
-                    style: TextStyle(color: Colors.amber, fontSize: 25),
-                  ),
-                  Text(
-                    "Cinsiyet: ${model.gender}",
-                    style: TextStyle(color: Colors.amber, fontSize: 25),
-                  ),
-                  Card(
-                      child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      "Günlük Adım Sayısı: ${model.stepsTotal == null ? 0 : model.stepsTotal.toString()}",
-                      style: TextStyle(fontSize: 25),
-                    ),
-                  )),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Card(
-                      child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      "Boy: ${model.height.toString()}",
-                      style: TextStyle(fontSize: 25),
-                    ),
-                  )),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Card(
-                      child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      "Vücut Kitle Indeksi: ${model.body_mass_index.toString()}",
-                      style: TextStyle(fontSize: 25),
-                    ),
-                  )),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Card(
-                      child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      "Kilo: ${model.weight.toString()}",
-                      style: TextStyle(fontSize: 25),
-                    ),
-                  )),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Card(
-                      child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      "Harcanan Enerji: ${model.energyBurned.toString()}",
-                      style: TextStyle(fontSize: 25),
-                    ),
-                  )),
-                  Card(
-                      child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      "Telefon Modeli: ${model.phoneModel.toString()}",
-                      style: TextStyle(fontSize: 25),
-                    ),
-                  )),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => AppUsageClass()));
-                    },
-                    child: Text("Uygulama Süreleri"),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => AppsCategory()));
-                    },
-                    child: Text("Uygulamaların Kategorileri"),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
+      body: const Center(child: Text("Veriler Kaydedildi",style: TextStyle(fontSize: 25,color: Colors.amber),))
     );
   }
 }
+

@@ -17,7 +17,6 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
  var size=MediaQuery.of(context).size;
     return Scaffold(
-
       backgroundColor: Colors.white,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -37,7 +36,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   decoration: BoxDecoration(
                     color: Colors.grey.shade100,
                     borderRadius: BorderRadius.circular(15),
-                    boxShadow: [
+                    boxShadow: const [
                       BoxShadow(
                         color: Colors.indigo,
                         spreadRadius: 1,
@@ -49,7 +48,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         spreadRadius: 2,
                         blurRadius: 8,
                         offset: Offset(4, 4),
-                      )
+                      ),
                     ],
                   ),
                   child: Center(
