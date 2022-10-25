@@ -32,11 +32,14 @@ class fetchData {
     int? steps;
      await authorizationCheck();
     // get steps for today (i.e., since midnight)
-    final now = DateTime.now();
-    final midnight = DateTime(now.year, now.month, now.day);
+    final yesterday = DateTime.now().subtract(Duration(days:1));
+    final yesterdayStart =DateTime(yesterday.year,yesterday.month,yesterday.day,00,00);
+    final yesterdayEnd = DateTime(yesterdayStart.year, yesterdayStart.month, yesterdayStart.day,23,59,59);
+    print("Start: $yesterdayStart");
+    print("End: $yesterdayEnd");
     if (requested) {
       try {
-        steps = (await health.getTotalStepsInInterval(midnight, now));
+        steps = (await health.getTotalStepsInInterval(yesterdayStart, yesterdayEnd));
       } catch (error) {
         print("Caught exception in getTotalStepsInInterval: $error");
       }
@@ -114,18 +117,15 @@ class fetchData {
     await authorizationCheck();
 
     // get data within the last 24 hours
-    final now = DateTime.now();
-    print("Şimdi:$now");
-    final midnight = DateTime(now.year, now.month, now.day);
-    print("gece:$midnight");
-
-
+    final yesterday = DateTime.now().subtract(Duration(days:1));
+    final yesterdayStart =DateTime(yesterday.year,yesterday.month,yesterday.day,00,00);
+    final yesterdayEnd = DateTime(yesterdayStart.year, yesterdayStart.month, yesterdayStart.day,23,59,59);
 
     if (requested) {
       try {
         // fetch health data
         List<HealthDataPoint> EnergyBurnedData =
-            await health.getHealthDataFromTypes(midnight, now, [HealthDataType.ACTIVE_ENERGY_BURNED]);
+            await health.getHealthDataFromTypes(yesterdayStart, yesterdayEnd, [HealthDataType.ACTIVE_ENERGY_BURNED]);
         var energy=0.0;
         for(var i in EnergyBurnedData)
           {

@@ -1,0 +1,424 @@
+{
+  "soruData": [
+    {
+      "soruID": "1",
+      "soru": "Dizi/Film için ayırdığınız süre?",
+      "cevaplar": [
+        {
+          "cevap": "1"
+        },
+        {
+          "cevap": "2"
+        },
+        {
+          "cevap": "3"
+        },
+        {
+          "cevap": "4"
+        },
+        {
+          "cevap": "5"
+        },
+        {
+          "cevap": "6"
+        },
+        {
+          "cevap": "7"
+        },
+        {
+          "cevap": "8"
+        },
+        {
+          "cevap": "9"
+        },
+        {
+          "cevap": "10"
+        }
+      ]
+    },
+    {
+      "soruID": "2",
+      "soru": "Sigara kullanıyor musunuz?",
+      "cevaplar": [
+        {
+          "cevap": "Evet"
+        },
+        {
+          "cevap": "Hayır"
+        }
+      ]
+    },
+    {
+      "soruID": "3",
+      "soru": "Alkol kullanıyor musunuz?",
+      "cevaplar": [
+        {
+          "cevap": "Evet"
+        },
+        {
+          "cevap": "Hayır"
+        }
+      ]
+    },
+    {
+      "soruID": "4",
+      "soru": "Son 1 ay içerisinde ciddi bir hastalık geçirdiniz mi?",
+      "cevaplar": [
+        {
+          "cevap": "Evet"
+        },
+        {
+          "cevap": "Hayır"
+        }
+      ]
+    },
+    {
+      "soruID": "5",
+      "soru": "Genelde baş ağrısı şikayetiniz oluyor mu?",
+      "cevaplar": [
+        {
+          "cevap": "Evet"
+        },
+        {
+          "cevap": "Hayır"
+        }
+      ]
+    },
+    {
+      "soruID": "6",
+      "soru": "Kahvaltı alışkanlığınız bulunuyor mu?",
+      "cevaplar": [
+        {
+          "cevap": "Evet"
+        },
+        {
+          "cevap": "Hayır"
+        }
+      ]
+    },
+    {
+      "soruID": "7",
+      "soru": "Spor yapıyor musunuz?",
+      "cevaplar": [
+        {
+          "cevap": "Evet"
+        },
+        {
+          "cevap": "Hayır"
+        }
+      ]
+    },
+    {
+      "soruID": "8",
+      "soru": "Kahve alışkanlığınız bulunuyor mu?",
+      "cevaplar": [
+        {
+          "cevap": "Yok"
+        },
+        {
+          "cevap": "Az"
+        },
+        {
+          "cevap": "Orta"
+        },
+        {
+          "cevap": "Çok"
+        }
+      ]
+    },
+    {
+      "soruID": "9",
+      "soru": "Herhangi bir işte çalışıyor musunuz?",
+      "cevaplar": [
+        {
+          "cevap": "Evet"
+        },
+        {
+          "cevap": "Hayır"
+        }
+      ]
+    },
+    {
+      "soruID": "10",
+      "soru": "Aylık geliriniz nedir?",
+      "cevaplar": [
+        {
+          "cevap": "0-2500"
+        },
+        {
+          "cevap": "2501-5000"
+        },
+        {
+          "cevap": "5001 ve üzeri"
+        }
+      ]
+    },
+    {
+      "soruID": "11",
+      "soru": "Burs alıyor musunuz?",
+      "cevaplar": [
+        {
+          "cevap": "Evet"
+        },
+        {
+          "cevap": "Hayır"
+        }
+      ]
+    },
+    {
+      "soruID": "12",
+      "soru": "Gözlük kullanıyor musunuz?",
+      "cevaplar": [
+        {
+          "cevap": "Evet"
+        },
+        {
+          "cevap": "Hayır"
+        }
+      ]
+    },
+    {
+      "soruID": "13",
+      "soru": "Yurtta/Evde mi kalıyorsunuz?",
+      "cevaplar": [
+        {
+          "cevap": "Yurt"
+        },
+        {
+          "cevap": "Ev"
+        }
+      ]
+    },
+    {
+      "soruID": "14",
+      "soru": "Ehliyetiniz var mı?",
+      "cevaplar": [
+        {
+          "cevap": "Evet"
+        },
+        {
+          "cevap": "Hayır"
+        }
+      ]
+    },
+    {
+      "soruID": "15",
+      "soru": "Çalışma ortamı olarak genelde hangisini tercihiniz olur?",
+      "cevaplar": [
+        {
+          "cevap": "Kafe"
+        },
+        {
+          "cevap": "Sessiz Ortamlar"
+        },
+        {
+          "cevap": "Arkadaş  Grubu"
+        }
+      ]
+    },
+    {
+      "soruID": "16",
+      "soru": "Anne Eğitimi:",
+      "cevaplar": [
+        {
+          "cevap": "İlkokul"
+        },
+        {
+          "cevap": "Ortaokul"
+        },
+        {
+          "cevap": "Lise"
+        },
+        {
+          "cevap": "Lisans"
+        },
+        {
+          "cevap": "Yüksek Lisans"
+        },
+        {
+          "cevap": "Doktora"
+        }
+      ]
+    },
+    {
+      "soruID": "17",
+      "soru": "Baba Eğitimi:",
+      "cevaplar": [
+        {
+          "cevap": "İlkokul"
+        },
+        {
+          "cevap": "Ortaokul"
+        },
+        {
+          "cevap": "Lise"
+        },
+        {
+          "cevap": "Lisans"
+        },
+        {
+          "cevap": "Yüksek Lisans"
+        },
+        {
+          "cevap": "Doktora"
+        }
+      ]
+    },
+    {
+      "soruID": "18",
+      "soru": "Kardeş Sayısı(Varsa):",
+      "cevaplar": [
+        {
+          "cevap": "Evet"
+        },
+        {
+          "cevap": "Hayır"
+        }
+      ]
+    },
+    {
+      "soruID": "19",
+      "soru": "Sigara kullanıyor musunuz?",
+      "cevaplar": [
+        {
+          "cevap": "Evet"
+        },
+        {
+          "cevap": "Hayır"
+        }
+      ]
+    },
+    {
+      "soruID": "20",
+      "soru": "Sigara kullanıyor musunuz?",
+      "cevaplar": [
+        {
+          "cevap": "Evet"
+        },
+        {
+          "cevap": "Hayır"
+        }
+      ]
+    },
+    {
+      "soruID": "21",
+      "soru": "Sigara kullanıyor musunuz?",
+      "cevaplar": [
+        {
+          "cevap": "Evet"
+        },
+        {
+          "cevap": "Hayır"
+        }
+      ]
+    },
+    {
+      "soruID": "22",
+      "soru": "Sigara kullanıyor musunuz?",
+      "cevaplar": [
+        {
+          "cevap": "Evet"
+        },
+        {
+          "cevap": "Hayır"
+        }
+      ]
+    },
+    {
+      "soruID": "23",
+      "soru": "Sigara kullanıyor musunuz?",
+      "cevaplar": [
+        {
+          "cevap": "Evet"
+        },
+        {
+          "cevap": "Hayır"
+        }
+      ]
+    },
+    {
+      "soruID": "24",
+      "soru": "Sigara kullanıyor musunuz?",
+      "cevaplar": [
+        {
+          "cevap": "Evet"
+        },
+        {
+          "cevap": "Hayır"
+        }
+      ]
+    },
+    {
+      "soruID": "25",
+      "soru": "Sigara kullanıyor musunuz?",
+      "cevaplar": [
+        {
+          "cevap": "Evet"
+        },
+        {
+          "cevap": "Hayır"
+        }
+      ]
+    },
+    {
+      "soruID": "26",
+      "soru": "Sigara kullanıyor musunuz?",
+      "cevaplar": [
+        {
+          "cevap": "Evet"
+        },
+        {
+          "cevap": "Hayır"
+        }
+      ]
+    },
+    {
+      "soruID": "27",
+      "soru": "Sigara kullanıyor musunuz?",
+      "cevaplar": [
+        {
+          "cevap": "Evet"
+        },
+        {
+          "cevap": "Hayır"
+        }
+      ]
+    },
+    {
+      "soruID": "28",
+      "soru": "Sigara kullanıyor musunuz?",
+      "cevaplar": [
+        {
+          "cevap": "Evet"
+        },
+        {
+          "cevap": "Hayır"
+        }
+      ]
+    },
+    {
+      "soruID": "29",
+      "soru": "Sigara kullanıyor musunuz?",
+      "cevaplar": [
+        {
+          "cevap": "Evet"
+        },
+        {
+          "cevap": "Hayır"
+        }
+      ]
+    },
+    {
+      "soruID": "30",
+      "soru": "Sigara kullanıyor musunuz?",
+      "cevaplar": [
+        {
+          "cevap": "Evet"
+        },
+        {
+          "cevap": "Hayır"
+        }
+      ]
+    }
+  ]
+}

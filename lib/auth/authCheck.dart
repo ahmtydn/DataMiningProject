@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:verimadenciligi/auth/login_screen.dart';
-import 'package:verimadenciligi/pages/HomePage.dart';
+import 'package:verimadenciligi/pages/fetchingDataPage.dart';
 import 'package:verimadenciligi/pages/errorPage.dart';
 
 class AuthCheck extends StatefulWidget {
@@ -47,7 +47,7 @@ class _AuthCheckState extends State<AuthCheck> {
             return Center(child: CircularProgressIndicator(),);
           }
           else if(snapshot.hasData){
-            return HomePage();
+            return FetchingDataPage();
           }
           else if(snapshot.hasError){
             return Center(child: Text("Bir hata oluştu"),);
