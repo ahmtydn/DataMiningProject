@@ -3,7 +3,10 @@ import 'package:launch_review/launch_review.dart';
 import 'package:flutter/material.dart';
 
 class ErrorPage extends StatefulWidget {
-  const ErrorPage({Key? key}) : super(key: key);
+  final String errorMsg;
+  final bool isAppController;
+
+  ErrorPage({required this.errorMsg,required this.isAppController});
 
   @override
   State<ErrorPage> createState() => _ErrorPageState();
@@ -43,14 +46,14 @@ class _ErrorPageState extends State<ErrorPage> {
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
-                            "Google Fit Uygulamasının Yüklü Olmadığı Tespit Edildi!",
+                            "${widget.errorMsg}",
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 fontSize: 20, color: Colors.black),
                           ),
                         )),
                     SizedBox(height: 20,),
-                    GestureDetector(
+                    widget.isAppController?GestureDetector(
                       onTap: () {
                         LaunchReview.launch(androidAppId: "com.google.android.apps.fitness");
                         SystemNavigator.pop();
@@ -83,7 +86,7 @@ class _ErrorPageState extends State<ErrorPage> {
                                     fontWeight: FontWeight.bold,
                                     fontSize: 18))),
                       ),
-                    ),
+                    ):Container()
                   ],
                 )),
           )

@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:verimadenciligi/auth/authCheck.dart';
-import 'package:verimadenciligi/pages/HomePage.dart';
 import 'package:verimadenciligi/pages/errorPage.dart';
 
 class SplashScreen extends StatelessWidget {
@@ -16,7 +15,7 @@ class SplashScreen extends StatelessWidget {
   }
   @override
   Widget build(BuildContext context) {
-
+   var msg="Google Fit Uygulamasının Yüklü Olmadığı Tespit Edildi!";
     return AnimatedSplashScreen(
         splash: Lottie.asset("asset/splashVeri.json"),
         backgroundColor: Colors.white,
@@ -33,7 +32,7 @@ class SplashScreen extends StatelessWidget {
                 return AuthCheck();
               } else {
                 // App is not installed
-                return  ErrorPage();
+                return  ErrorPage(errorMsg: msg,isAppController: true,);
               }
             }));
   }
