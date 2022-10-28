@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:verimadenciligi/fetchData/fetchData.dart';
 import 'package:verimadenciligi/model/dataModel.dart';
-import 'package:verimadenciligi/pages/HomePage.dart';
+import 'package:verimadenciligi/pages/QuizPage.dart';
 
 class FetchingDataPage extends StatefulWidget {
   const FetchingDataPage({Key? key}) : super(key: key);
@@ -192,7 +192,7 @@ class _FetchingDataPageState extends State<FetchingDataPage> {
             ? Center(
                 child: CircularProgressIndicator(),
               )
-            : HomePage());
+            : QuizPage());
   }
 }
 

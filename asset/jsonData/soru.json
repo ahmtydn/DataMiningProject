@@ -5,34 +5,16 @@
       "soru": "Dizi/Film için ayırdığınız süre?",
       "cevaplar": [
         {
-          "cevap": "1"
+          "cevap": "Yok"
         },
         {
-          "cevap": "2"
+          "cevap": "Az"
         },
         {
-          "cevap": "3"
+          "cevap": "Orta"
         },
         {
-          "cevap": "4"
-        },
-        {
-          "cevap": "5"
-        },
-        {
-          "cevap": "6"
-        },
-        {
-          "cevap": "7"
-        },
-        {
-          "cevap": "8"
-        },
-        {
-          "cevap": "9"
-        },
-        {
-          "cevap": "10"
+          "cevap": "Çok"
         }
       ]
     },
@@ -203,7 +185,7 @@
     },
     {
       "soruID": "15",
-      "soru": "Çalışma ortamı olarak genelde hangisini tercihiniz olur?",
+      "soru": "Çalışma ortamı olarak genelde hangisi tercihiniz olur?",
       "cevaplar": [
         {
           "cevap": "Kafe"
@@ -218,7 +200,7 @@
     },
     {
       "soruID": "16",
-      "soru": "Anne Eğitimi:",
+      "soru": "Anne Eğitimi?",
       "cevaplar": [
         {
           "cevap": "İlkokul"
@@ -242,7 +224,7 @@
     },
     {
       "soruID": "17",
-      "soru": "Baba Eğitimi:",
+      "soru": "Baba Eğitimi?",
       "cevaplar": [
         {
           "cevap": "İlkokul"
@@ -269,100 +251,154 @@
       "soru": "Kardeş Sayısı(Varsa):",
       "cevaplar": [
         {
-          "cevap": "Evet"
+          "cevap": "1"
         },
         {
-          "cevap": "Hayır"
+          "cevap": "2"
+        },
+        {
+          "cevap": "3"
+        },
+        {
+          "cevap": "4"
+        },
+        {
+          "cevap": "5 ve üzeri"
         }
       ]
     },
     {
       "soruID": "19",
-      "soru": "Sigara kullanıyor musunuz?",
+      "soru": "Ebeveynlik Durumu?",
       "cevaplar": [
         {
-          "cevap": "Evet"
+          "cevap": "Evli"
         },
         {
-          "cevap": "Hayır"
+          "cevap": "Boşanmış"
+        },
+        {
+          "cevap": "Öldü"
         }
       ]
     },
     {
       "soruID": "20",
-      "soru": "Sigara kullanıyor musunuz?",
+      "soru": "Anne Mesleği?",
       "cevaplar": [
         {
-          "cevap": "Evet"
+          "cevap": "Emekli"
         },
         {
-          "cevap": "Hayır"
+          "cevap": "Ev Hanımı"
+        },
+        {
+          "cevap": "Devlet Memuru"
+        },
+        {
+          "cevap": "Özel Sektör Çalışanı"
+        },
+        {
+          "cevap": "Serbest Meslek"
+        },
+        {
+          "cevap": "Diğer"
         }
       ]
     },
     {
       "soruID": "21",
-      "soru": "Sigara kullanıyor musunuz?",
+      "soru": "Baba Mesleği?",
       "cevaplar": [
         {
-          "cevap": "Evet"
+          "cevap": "Emekli"
         },
         {
-          "cevap": "Hayır"
+          "cevap": "Devlet Memuru"
+        },
+        {
+          "cevap": "Özel Sektör Çalışanı"
+        },
+        {
+          "cevap": "Serbest Meslek"
+        },
+        {
+          "cevap": "Diğer"
         }
       ]
     },
     {
       "soruID": "22",
-      "soru": "Sigara kullanıyor musunuz?",
+      "soru": "Son yarıyıl genel not ortalaması(/4.00)?",
       "cevaplar": [
         {
-          "cevap": "Evet"
+          "cevap": "<2.00"
         },
         {
-          "cevap": "Hayır"
+          "cevap": "2.00-2.49"
+        },
+        {
+          "cevap": "2.50-2.99"
+        },
+        {
+          "cevap": "3.00-3.49"
+        },
+        {
+          "cevap": "3.50 ve üstü"
         }
       ]
     },
     {
       "soruID": "23",
-      "soru": "Sigara kullanıyor musunuz?",
+      "soru": "Mezuniyette Beklenen Not Ortalaması(/4.00)?",
       "cevaplar": [
         {
-          "cevap": "Evet"
+          "cevap": "<2.00"
         },
         {
-          "cevap": "Hayır"
+          "cevap": "2.00-2.49"
+        },
+        {
+          "cevap": "2.50-2.99"
+        },
+        {
+          "cevap": "3.00-3.49"
+        },
+        {
+          "cevap": "3.50 ve üstü"
         }
       ]
     },
     {
       "soruID": "24",
-      "soru": "Sigara kullanıyor musunuz?",
+      "soru": "Okuma Sıklığı(bilimsel kitap/dergi)?",
       "cevaplar": [
         {
-          "cevap": "Evet"
+          "cevap": "Yok"
         },
         {
-          "cevap": "Hayır"
+          "cevap": "Bazen"
+        },
+        {
+          "cevap": "Sıklıkla"
         }
       ]
     },
     {
       "soruID": "25",
-      "soru": "Sigara kullanıyor musunuz?",
+      "soru": "Ek iş durumunuz nedir?",
       "cevaplar": [
         {
-          "cevap": "Evet"
+          "cevap": "Var"
         },
         {
-          "cevap": "Hayır"
+          "cevap": "Yok"
         }
       ]
     },
     {
       "soruID": "26",
-      "soru": "Sigara kullanıyor musunuz?",
+      "soru": "Düzenli sanatsal veya sportif aktivite yapıyor musunuz?",
       "cevaplar": [
         {
           "cevap": "Evet"
@@ -374,7 +410,7 @@
     },
     {
       "soruID": "27",
-      "soru": "Sigara kullanıyor musunuz?",
+      "soru": "Partneriniz var mı?",
       "cevaplar": [
         {
           "cevap": "Evet"
@@ -386,37 +422,64 @@
     },
     {
       "soruID": "28",
-      "soru": "Sigara kullanıyor musunuz?",
+      "soru": "Haftalık çalışma saatleri?",
       "cevaplar": [
         {
-          "cevap": "Evet"
+          "cevap": "Yok"
         },
         {
-          "cevap": "Hayır"
+          "cevap": "<5 saat"
+        },
+        {
+          "cevap": "6-10 saat"
+        },
+        {
+          "cevap": "11-20 saat"
+        },
+        {
+          "cevap": "20 saatten fazla"
         }
       ]
     },
     {
       "soruID": "29",
-      "soru": "Sigara kullanıyor musunuz?",
+      "soru": "Arkadaşlarla dışarı çıkmak(Sayısal:1-çok düşükten 5- çok yüksek)",
       "cevaplar": [
         {
-          "cevap": "Evet"
+          "cevap": "1"
         },
         {
-          "cevap": "Hayır"
+          "cevap": "2"
+        },
+        {
+          "cevap": "3"
+        },
+        {
+          "cevap": "4"
+        },
+        {
+          "cevap": "5"
         }
       ]
     },
     {
       "soruID": "30",
-      "soru": "Sigara kullanıyor musunuz?",
+      "soru": "Mevcut sağlık durumu(sayısal:1-çok kötü 5- çok iyi)",
       "cevaplar": [
         {
-          "cevap": "Evet"
+          "cevap": "1"
         },
         {
-          "cevap": "Hayır"
+          "cevap": "2"
+        },
+        {
+          "cevap": "3"
+        },
+        {
+          "cevap": "4"
+        },
+        {
+          "cevap": "5"
         }
       ]
     }

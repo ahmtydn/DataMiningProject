@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:verimadenciligi/model/sorularModel.dart';
 
 class QuestionPage extends StatefulWidget {
-  List<SoruDatum> listData;
+  String questionText;
 
-  QuestionPage({required this.listData});
+  QuestionPage({required this.questionText});
 
   @override
   State<QuestionPage> createState() => _QuestionPageState();
@@ -14,90 +13,59 @@ class _QuestionPageState extends State<QuestionPage> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    double rating = 0;
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Column(
+    return Container(
+      width: size.width - 60,
+      height: size.height / 3.5,
+      child: Container(
+        decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(10))),
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            SizedBox(
-              height: 15,
-            ),
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Text(
-                  widget.listData[0].soru.toString(),
-                  style: TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black),
-                ),
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Row(
+                children: [
+                  Spacer(),
+                  Image.asset("asset/images/clip.png"),
+                ],
               ),
             ),
-            SizedBox(
-              height: 80,
+            Spacer(),
+            Padding(
+              padding: const EdgeInsets.only(left: 35,right: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Flexible(
+                    child: Text(
+                      widget.questionText,
+                      style:const TextStyle(
+                          color: Colors.black, fontSize: 25, fontWeight: FontWeight.w400),
+                    ),
+                  ),
+                ],
+              ),
             ),
-            SizedBox(
-                width: size.width-20,
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        const Padding(
-                          padding: EdgeInsets.only(left: 20.0),
-                          child: Text("0",style: TextStyle(fontSize: 20,color: Colors.white),),
-                        ),
-                        Spacer(),
-                        Padding(
-                          padding: const EdgeInsets.only(right:20.0),
-                          child: const Text("10",style: TextStyle(fontSize: 20,color: Colors.white),),
-                        ),
-                      ],
-                    ),
-                    StatefulBuilder(
-                      builder: (context, state) {
-                        return Slider(
-                            value: rating,
-                            divisions: widget.listData[0].cevaplar.length,
-                            max: widget.listData[0].cevaplar.length.toDouble(),
-                            label: rating.round().toString(),
-                            onChanged: (newValue) {
-                              state(() {
-                                rating = newValue;
-                                print(newValue);
-                              });
-                            });
-                      },
-                    ),
-                  ],
-                )) /*SizedBox(
-              height: 300,
-              width: 300,
-              child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3),
-                itemCount: listData![indexData].cevaplar.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return GestureDetector(
-                    onTap: () {
-                      print(listData![indexData].cevaplar[index].cevap);
-                    },
-                    child: Card(
-                      color: Colors.primaries[index % 10],
-                      child: Center(
-                          child: Text('${listData![indexData].cevaplar[index].cevap}')),
-                    ),
-                  );
-                },
+           const Spacer(),
+           Container(
+             height: 60,
+           )
+           /* Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Row(
+                children: [
+                  Image.asset("asset/images/clip.png"),
+                  Spacer(),
+                 // Image.asset("asset/images/clip.png"),
+                ],
               ),
             ),*/
           ],
         ),
-      ],
+      ),
     );
   }
 }
