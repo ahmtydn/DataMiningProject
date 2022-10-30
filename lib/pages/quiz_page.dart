@@ -1,9 +1,14 @@
+import 'dart:convert';
+import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:verimadenciligi/model/sorularModel.dart';
-import 'package:verimadenciligi/pages/answerPage.dart';
-import 'package:verimadenciligi/pages/homePage.dart';
-import 'package:verimadenciligi/pages/questionPage.dart';
+import 'package:verimadenciligi/model/sorular_model.dart';
+import 'package:verimadenciligi/model/survey_data.dart';
+import 'package:verimadenciligi/pages/answer_page.dart';
+import 'package:verimadenciligi/pages/home_page.dart';
+import 'package:verimadenciligi/pages/question_page.dart';
 
 class QuizPage extends StatefulWidget {
   const QuizPage({Key? key}) : super(key: key);
@@ -19,6 +24,7 @@ class _QuizPageState extends State<QuizPage> {
   List<SoruDatum>? listData;
   SorularModel? sorularModel;
   PageController pageController = PageController(initialPage: 0);
+  List<SurveyDatum> quizList = [];
 
   Future<void> getJson() async {
     final jsonString = await rootBundle.loadString('asset/jsonData/soru.json');
@@ -59,7 +65,9 @@ class _QuizPageState extends State<QuizPage> {
               physics: NeverScrollableScrollPhysics(),
               itemCount: listData!.length,
               itemBuilder: (context, index) {
+                print(quizList);
                 return QuizPageHelper(
+                    listQuiz: quizList,
                     indexZex: index,
                     size: size,
                     listData: listData,
@@ -70,18 +78,32 @@ class _QuizPageState extends State<QuizPage> {
 }
 
 class QuizPageHelper extends StatelessWidget {
-  const QuizPageHelper({
+  QuizPageHelper({
     Key? key,
     required this.size,
     required this.listData,
     required this.pageController,
     required this.indexZex,
+    required this.listQuiz,
   }) : super(key: key);
 
   final Size size;
+  final List<SurveyDatum> listQuiz;
+  SurveyData? surveyData;
   final int indexZex;
   final List<SoruDatum>? listData;
   final PageController pageController;
+
+  void saveSurveyData() async {
+    var userID = await FirebaseAuth.instance.currentUser!.uid;
+    print(userID);
+    var jsonData = jsonEncode(surveyData!);
+    var url =
+        "https://datamining-367013-default-rtdb.firebaseio.com/Data/${userID}/surveyData.json";
+    var httpClient = http.Client();
+    var res = await httpClient.post(Uri.parse(url), body: jsonData);
+    print(res.body);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -125,6 +147,30 @@ class QuizPageHelper extends StatelessWidget {
                       ],
                     ),
                   ),
+                  Positioned(
+                      top: 35,
+                      left: 105,
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Colors.blueGrey.shade900,
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(25),
+                            )),
+                        width: 160,
+                        height: 35,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Soru: ${indexZex + 1}/${listData!.length}",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 25,
+                                  color: Colors.white),
+                            ),
+                          ],
+                        ),
+                      )),
                 ],
               ),
             ),
@@ -142,24 +188,53 @@ class QuizPageHelper extends StatelessWidget {
                   itemBuilder: (context, indeks) {
                     return GestureDetector(
                         onTap: () {
-                          if(listData!.length==pageController.page!.toInt()+1){
-                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>HomePage()));
+                          if (listData!.length ==
+                              pageController.page!.toInt() + 1) {
+                            listQuiz.add(SurveyDatum(
+                                soruId: (indexZex + 1).toString(),
+                                soru: listData![indexZex].soru.toString(),
+                                answer: listData![indexZex]
+                                    .cevaplar[indeks]
+                                    .cevap
+                                    .toString()));
+                            surveyData = SurveyData(surveyData: listQuiz);
 
+                            AwesomeDialog(
+                              context: context,
+                              dialogType: DialogType.success,
+                              headerAnimationLoop: false,
+                              animType: AnimType.bottomSlide,
+                              title: 'Anket Tamamlandı',
+                              desc: 'Anketi tamamladığınız için teşekkürler :)',
+                              buttonsTextStyle:
+                                  const TextStyle(color: Colors.black),
+                              dismissOnTouchOutside: false,
+                              btnOkOnPress: () {
+                                saveSurveyData();
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => HomePage()));
+                              },
+                            ).show();
+                          } else {
+                            pageController.nextPage(
+                                duration: Duration(milliseconds: 1000),
+                                curve: Curves.easeOutCubic);
+                            listQuiz.add(SurveyDatum(
+                                soruId: (indexZex + 1).toString(),
+                                soru: listData![indexZex].soru.toString(),
+                                answer: listData![indexZex]
+                                    .cevaplar[indeks]
+                                    .cevap
+                                    .toString()));
                           }
-                          pageController.nextPage(
-                              duration: Duration(milliseconds: 1000),
-                              curve: Curves.easeOutCubic);
-                          print(listData![indexZex].cevaplar[indeks].cevap);
                         },
                         child: AnswerPage(
                             answerText:
                                 "${listData![indexZex].cevaplar[indeks].cevap}"));
                   }),
             ),
-            /* ElevatedButton(onPressed: (){
-         var services=AuthServices();
-         services.logout();
-        }, child: Text("Çıkış"))*/
           ],
         ),
       ),

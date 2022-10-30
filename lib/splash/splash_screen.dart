@@ -3,8 +3,8 @@ import 'package:device_apps/device_apps.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:verimadenciligi/auth/authCheck.dart';
-import 'package:verimadenciligi/pages/errorPage.dart';
+import 'package:verimadenciligi/auth/auth_check.dart';
+import 'package:verimadenciligi/pages/error_page.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({Key? key}) : super(key: key);

@@ -48,11 +48,15 @@ dependencies:
   shimmer_animation: ^2.1.0+1
   app_usage: ^2.0.0
   provider: any
+  usage_stats: ^1.2.0
   reviews_slider: ^2.0.0
+  flutter_native_timezone: ^2.0.0
+  rxdart: ^0.27.5
   device_info_plus: ^7.0.1
   shared_preferences: ^2.0.15
   http: any
-
+  package_usage_stats: ^0.0.3
+  awesome_dialog: ^3.0.2
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2

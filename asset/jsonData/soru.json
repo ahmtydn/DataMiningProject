@@ -79,18 +79,6 @@
       ]
     },
     {
-      "soruID": "7",
-      "soru": "Spor yapıyor musunuz?",
-      "cevaplar": [
-        {
-          "cevap": "Evet"
-        },
-        {
-          "cevap": "Hayır"
-        }
-      ]
-    },
-    {
       "soruID": "8",
       "soru": "Kahve alışkanlığınız bulunuyor mu?",
       "cevaplar": [
@@ -248,8 +236,11 @@
     },
     {
       "soruID": "18",
-      "soru": "Kardeş Sayısı(Varsa):",
+      "soru": "Kardeş Sayısı?",
       "cevaplar": [
+        {
+          "cevap": "Yok"
+        },
         {
           "cevap": "1"
         },

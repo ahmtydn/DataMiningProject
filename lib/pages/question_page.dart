@@ -53,16 +53,6 @@ class _QuestionPageState extends State<QuestionPage> {
            Container(
              height: 60,
            )
-           /* Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Row(
-                children: [
-                  Image.asset("asset/images/clip.png"),
-                  Spacer(),
-                 // Image.asset("asset/images/clip.png"),
-                ],
-              ),
-            ),*/
           ],
         ),
       ),

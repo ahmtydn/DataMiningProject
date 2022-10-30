@@ -2,7 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:verimadenciligi/splash/SplashScreen.dart';
+import 'package:verimadenciligi/splash/splash_screen.dart';
 
 
 
@@ -53,7 +53,9 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
+
     super.initState();
+
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       RemoteNotification? notification = message.notification;
       AndroidNotification? android = message.notification?.android;
@@ -96,7 +98,6 @@ class _MyAppState extends State<MyApp> {
       }
     });
   }
-
 
 
   @override

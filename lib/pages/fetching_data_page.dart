@@ -1,14 +1,19 @@
 import 'dart:convert';
 import 'package:device_apps/device_apps.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
 import 'package:app_usage/app_usage.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:package_usage_stats/package_usage_stats.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:verimadenciligi/fetchData/fetchData.dart';
-import 'package:verimadenciligi/model/dataModel.dart';
-import 'package:verimadenciligi/pages/QuizPage.dart';
+import 'package:usage_stats/usage_stats.dart';
+import 'package:verimadenciligi/fetchData/fetch_data.dart';
+import 'package:verimadenciligi/model/data_model.dart';
+import 'package:verimadenciligi/pages/quiz_page.dart';
+import 'package:verimadenciligi/pages/home_page.dart';
 
 class FetchingDataPage extends StatefulWidget {
   const FetchingDataPage({Key? key}) : super(key: key);
@@ -28,6 +33,7 @@ class _FetchingDataPageState extends State<FetchingDataPage> {
   List<AppUsageInfo> infoList = [];
   List<Application> apps = [];
   String? dataID;
+  bool? isLoginShared;
   //#endregion
 
   //#region  Fetching
@@ -109,32 +115,36 @@ class _FetchingDataPageState extends State<FetchingDataPage> {
   }
 
   Future<void> dataSave() async {
+    var userID= await FirebaseAuth.instance.currentUser!.uid;
+
     DateTime _time = DateTime.now();
     String nowTime="${_time.day}/${_time.month}/${_time.year}";
     print("Şimdiki zaman: $nowTime");
     bool sharedPermission=await checkSharedPrefences(nowTime);
     if(!sharedPermission){
 
-
+      //the first data of the day is saved
       var jsonData = jsonEncode(_dataModel!);
       var url =
-          "https://verimadenciligi-365117-default-rtdb.firebaseio.com/dataApps.json";
+          "https://datamining-367013-default-rtdb.firebaseio.com/Data/${userID}/dailyData.json";
       var httpClient = http.Client();
       var response = await httpClient.post(Uri.parse(url), body: jsonData);
       var id=response.body.substring(9,29);
       await removeShared();
       saveSharedPrefences(dataID: id,time: nowTime);
       print("response id: ${id}");
+      print(jsonData);
     }
     else{
+      //update data
       var jsonData = jsonEncode(_dataModel!);
       print(dataID);
       var url =
-          "https://verimadenciligi-365117-default-rtdb.firebaseio.com/dataApps/${dataID}.json";
+          "https://datamining-367013-default-rtdb.firebaseio.com/Data/${userID}/dailyData/${dataID}.json";
       var httpClient = http.Client();
       await httpClient.put(Uri.parse(url), body: jsonData);
+      print(jsonData);
     }
-
   }
 
   Future<void>removeShared() async {
@@ -160,39 +170,85 @@ class _FetchingDataPageState extends State<FetchingDataPage> {
     sharedPreferences.setString("dataID", dataID!);
   }
 
-  void getUsageStats() async {
+  Future<void> getUsageStats() async {
     try {
       final yesterday = DateTime.now().subtract(Duration(days:1));
       final yesterdayStart =DateTime(yesterday.year,yesterday.month,yesterday.day,00,00);
       final yesterdayEnd = DateTime(yesterdayStart.year, yesterdayStart.month, yesterdayStart.day,23,59,59);
+      print("Başlangıç Tarihi:${yesterdayStart}");
+      print("Bitiş Tarihi:${yesterdayEnd}");
 
-      infoList = await AppUsage.getAppUsage(yesterdayStart, yesterdayEnd);
-      List.generate(
-          infoList.length,
-          (index) => _infosApps.add(InfoAppUse(
-              appName: infoList[index].appName.toString(),
-              appUseTime: infoList[index].usage.toString())));
+
+      bool isGranted = await PackageUsageStats.checkPermissionStatus();
+      print(isGranted);
+      PackageUsageStats.onPermissionStatusChanged.listen((event) async {
+
+          if (event != null) {
+          print("if içerisinde");
+            infoList = await AppUsage.getAppUsage(yesterdayStart, yesterdayEnd);
+
+            List.generate(
+                infoList.length,
+                    (index) => _infosApps.add(InfoAppUse(
+                    appName: infoList[index].appName.toString(),
+                    appUseTime: infoList[index].usage.toString())));
+
+          } else {
+            PackageUsageStats.openAppUsageSettings();
+            print("else içerisinde");
+          }
+
+      });
+
+      if(isGranted){
+        infoList = await AppUsage.getAppUsage(yesterdayStart, yesterdayEnd);
+
+        List.generate(
+            infoList.length,
+                (index) => _infosApps.add(InfoAppUse(
+                appName: infoList[index].appName.toString(),
+                appUseTime: infoList[index].usage.toString())));
+      }
+      else{
+        PackageUsageStats.openAppUsageSettings();
+      }
+
     } on AppUsageException catch (exception) {
       print(exception);
     }
   }
 //#endregion
+
+  Future<void> getSharedIsLogin() async {
+    var sharedPreferences = await SharedPreferences.getInstance();
+    isLoginShared=sharedPreferences.getBool("isLogin");
+
+  }
+  void get_and_save_data() async {
+   await getSharedIsLogin();
+   WidgetsBinding.instance.addPostFrameCallback((_) async {
+     await getUsageStats();
+   });
+
+   await  getCetogrys();
+   await fetchDataMain();
+  }
   @override
   void initState() {
-    getUsageStats();
-    getCetogrys();
-    fetchDataMain();
+    get_and_save_data();
     super.initState();
+
   }
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
         body: isLoading == true
             ? Center(
                 child: CircularProgressIndicator(),
               )
-            : QuizPage());
+            :isLoginShared==false||isLoginShared==null?QuizPage(): HomePage());
   }
 }
 

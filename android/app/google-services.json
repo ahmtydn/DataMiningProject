@@ -1,20 +1,20 @@
 {
   "project_info": {
-    "project_number": "632509565147",
-    "project_id": "verimadenciligi-365117",
-    "storage_bucket": "verimadenciligi-365117.appspot.com"
+    "project_number": "935023018327",
+    "project_id": "datamining-367013",
+    "storage_bucket": "datamining-367013.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:632509565147:android:fa80f0bbba957c8c5524fe",
+        "mobilesdk_app_id": "1:935023018327:android:2fb048dcb791da17943e12",
         "android_client_info": {
           "package_name": "com.zexly.verimadenciligi.verimadenciligi"
         }
       },
       "oauth_client": [
         {
-          "client_id": "632509565147-skqg42en7nveeg512if4hc96mimu6pp4.apps.googleusercontent.com",
+          "client_id": "935023018327-ua83gb8k61r1m0oe43tl6d9brkla1enk.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.zexly.verimadenciligi.verimadenciligi",
@@ -22,20 +22,20 @@
           }
         },
         {
-          "client_id": "632509565147-i78hs2csi19koq02nhnb37q92lksvh39.apps.googleusercontent.com",
+          "client_id": "935023018327-dj0l9pti241neb7a4cmopmaestv90ics.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAD2SeT9bColLSiDp5asBAilu_-y84dKNQ"
+          "current_key": "AIzaSyC9d86PKllOKgYPw7GRmZsxpH7y1r0WWhY"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "632509565147-i78hs2csi19koq02nhnb37q92lksvh39.apps.googleusercontent.com",
+              "client_id": "935023018327-dj0l9pti241neb7a4cmopmaestv90ics.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

@@ -8,10 +8,10 @@ class AuthServices {
   String gender = "";
   int age = 0;
 
-  final googleSignIn = GoogleSignIn(scopes: [
-    "https://www.googleapis.com/auth/user.gender.read",
+  final googleSignIn = GoogleSignIn(scopes: [   "https://www.googleapis.com/auth/user.gender.read",
     "https://www.googleapis.com/auth/user.birthday.read"
   ]);
+
   GoogleSignInAccount? _user;
 
   GoogleSignInAccount get user => _user!;
@@ -44,7 +44,7 @@ class AuthServices {
     age = dateNowYear - year;
   }
 
-  Future googleLogin() async {
+  void googleLogin() async {
     try {
       final googleUser = await googleSignIn.signIn();
       if (googleUser == null) return;
@@ -55,7 +55,6 @@ class AuthServices {
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
-
       await getGender();
       await getBirthday();
       await saveData();
@@ -72,7 +71,7 @@ class AuthServices {
     sharedPreferences.setString("gender", gender.toString());
   }
 
-  Future logout() async {
+  Future<void> logout() async {
     await googleSignIn.disconnect();
     FirebaseAuth.instance.signOut();
   }

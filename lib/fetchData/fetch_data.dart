@@ -25,7 +25,7 @@ class fetchData {
     requested = await health.requestAuthorization(types, permissions: permissions);
     await Permission.activityRecognition.request();
     await Permission.location.request();
-    print(requested);
+
   }
   /// Fetch steps from the health plugin and show them in the app.
   Future<int?> fetchStepData() async {
@@ -35,8 +35,7 @@ class fetchData {
     final yesterday = DateTime.now().subtract(Duration(days:1));
     final yesterdayStart =DateTime(yesterday.year,yesterday.month,yesterday.day,00,00);
     final yesterdayEnd = DateTime(yesterdayStart.year, yesterdayStart.month, yesterdayStart.day,23,59,59);
-    print("Start: $yesterdayStart");
-    print("End: $yesterdayEnd");
+
     if (requested) {
       try {
         steps = (await health.getTotalStepsInInterval(yesterdayStart, yesterdayEnd));
@@ -44,7 +43,7 @@ class fetchData {
         print("Caught exception in getTotalStepsInInterval: $error");
       }
 
-      print('Total number of steps: $steps');
+
 
       return steps;
     } else {
@@ -104,7 +103,7 @@ class fetchData {
         List<HealthDataPoint> bodyIndexData =
             await health.getHealthDataFromTypes(yesterday, now, [HealthDataType.BODY_MASS_INDEX]);
         var body_index = double.parse(bodyIndexData.last.value.toString());
-        print("bodyy: $body_index");
+
         return body_index;
       } catch (error) {
         print("Exception in getHealthDataFromTypes: $error");
@@ -132,7 +131,7 @@ class fetchData {
              energy=energy+double.parse(i.value.toString());
           }
 
-        print("Harcanan Enerji:${energy}");
+
 
         return energy;
       } catch (error) {
