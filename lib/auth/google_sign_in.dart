@@ -1,15 +1,20 @@
 import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:verimadenciligi/auth/auth_check.dart';
+import 'package:verimadenciligi/auth/login_screen.dart';
 
 class AuthServices {
   String gender = "";
   int age = 0;
 
   final googleSignIn = GoogleSignIn(scopes: [   "https://www.googleapis.com/auth/user.gender.read",
-    "https://www.googleapis.com/auth/user.birthday.read"
+    "https://www.googleapis.com/auth/user.birthday.read",
+    "https://www.googleapis.com/auth/fitness.activity.read",
+    "https://www.googleapis.com/auth/fitness.body.read"
   ]);
 
   GoogleSignInAccount? _user;
@@ -71,8 +76,9 @@ class AuthServices {
     sharedPreferences.setString("gender", gender.toString());
   }
 
-  Future<void> logout() async {
+  Future<void> logout(BuildContext context) async {
     await googleSignIn.disconnect();
-    FirebaseAuth.instance.signOut();
+   await  FirebaseAuth.instance.signOut();
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>AuthCheck()));
   }
 }

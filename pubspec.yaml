@@ -57,10 +57,13 @@ dependencies:
   http: any
   package_usage_stats: ^0.0.3
   awesome_dialog: ^3.0.2
+  flutter_web_browser: ^0.17.1
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
-
+https://www:
+  ahmetaydin:
+    dev:
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -30,7 +30,7 @@ class _LoginHelperState extends State<LoginHelper> {
               child: Row(
                 children: [
                   Spacer(),
-                  Image.asset("asset/images/clip.png"),
+                  Image.asset("asset/images/clip.png",color: Colors.white,),
                 ],
               ),
             ),
@@ -44,7 +44,7 @@ class _LoginHelperState extends State<LoginHelper> {
                     child: Text(
                       widget.questionText,
                       style:const TextStyle(
-                          color: Colors.black, fontSize: 25, fontWeight: FontWeight.w400),
+                          color: Colors.white, fontSize: 25, fontWeight: FontWeight.w400),
                     ),
                   ),
                 ],

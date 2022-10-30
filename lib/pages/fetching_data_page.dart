@@ -10,7 +10,7 @@ import 'package:package_usage_stats/package_usage_stats.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:usage_stats/usage_stats.dart';
-import 'package:verimadenciligi/fetchData/fetch_data.dart';
+import 'package:verimadenciligi/fetching/fetch_data.dart';
 import 'package:verimadenciligi/model/data_model.dart';
 import 'package:verimadenciligi/pages/quiz_page.dart';
 import 'package:verimadenciligi/pages/home_page.dart';

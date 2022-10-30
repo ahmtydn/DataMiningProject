@@ -1,7 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:verimadenciligi/auth/auth_check.dart';
 import 'package:verimadenciligi/auth/google_sign_in.dart';
+import 'package:verimadenciligi/auth/login_screen.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -46,8 +50,8 @@ class _HomePageState extends State<HomePage> {
               ElevatedButton(
                   onPressed: () {
                     var services = AuthServices();
-                    services.logout();
-                    SystemNavigator.pop();
+                    services.logout(context);
+
                   },
                   child: Text("Çıkış")),
               ElevatedButton(
