@@ -29,7 +29,450 @@
           "cevap": "Hayır"
         }
       ]
+    },
+    {
+      "soruID": "3",
+      "soru": "Alkol kullanıyor musunuz?",
+      "cevaplar": [
+        {
+          "cevap": "Evet"
+        },
+        {
+          "cevap": "Hayır"
+        }
+      ]
+    },
+    {
+      "soruID": "4",
+      "soru": "Son 1 ay içerisinde ciddi bir hastalık geçirdiniz mi?",
+      "cevaplar": [
+        {
+          "cevap": "Evet"
+        },
+        {
+          "cevap": "Hayır"
+        }
+      ]
+    },
+    {
+      "soruID": "5",
+      "soru": "Genelde baş ağrısı şikayetiniz oluyor mu?",
+      "cevaplar": [
+        {
+          "cevap": "Evet"
+        },
+        {
+          "cevap": "Hayır"
+        }
+      ]
+    },
+    {
+      "soruID": "6",
+      "soru": "Kahvaltı alışkanlığınız bulunuyor mu?",
+      "cevaplar": [
+        {
+          "cevap": "Evet"
+        },
+        {
+          "cevap": "Hayır"
+        }
+      ]
+    },
+    {
+      "soruID": "8",
+      "soru": "Kahve alışkanlığınız bulunuyor mu?",
+      "cevaplar": [
+        {
+          "cevap": "Yok"
+        },
+        {
+          "cevap": "Az"
+        },
+        {
+          "cevap": "Orta"
+        },
+        {
+          "cevap": "Çok"
+        }
+      ]
+    },
+    {
+      "soruID": "9",
+      "soru": "Herhangi bir işte çalışıyor musunuz?",
+      "cevaplar": [
+        {
+          "cevap": "Evet"
+        },
+        {
+          "cevap": "Hayır"
+        }
+      ]
+    },
+    {
+      "soruID": "10",
+      "soru": "Aylık geliriniz nedir?",
+      "cevaplar": [
+        {
+          "cevap": "0-2500"
+        },
+        {
+          "cevap": "2501-5000"
+        },
+        {
+          "cevap": "5001 ve üzeri"
+        }
+      ]
+    },
+    {
+      "soruID": "11",
+      "soru": "Burs alıyor musunuz?",
+      "cevaplar": [
+        {
+          "cevap": "Evet"
+        },
+        {
+          "cevap": "Hayır"
+        }
+      ]
+    },
+    {
+      "soruID": "12",
+      "soru": "Gözlük kullanıyor musunuz?",
+      "cevaplar": [
+        {
+          "cevap": "Evet"
+        },
+        {
+          "cevap": "Hayır"
+        }
+      ]
+    },
+    {
+      "soruID": "13",
+      "soru": "Yurtta/Evde mi kalıyorsunuz?",
+      "cevaplar": [
+        {
+          "cevap": "Yurt"
+        },
+        {
+          "cevap": "Ev"
+        }
+      ]
+    },
+    {
+      "soruID": "14",
+      "soru": "Ehliyetiniz var mı?",
+      "cevaplar": [
+        {
+          "cevap": "Evet"
+        },
+        {
+          "cevap": "Hayır"
+        }
+      ]
+    },
+    {
+      "soruID": "15",
+      "soru": "Çalışma ortamı olarak genelde hangisi tercihiniz olur?",
+      "cevaplar": [
+        {
+          "cevap": "Kafe"
+        },
+        {
+          "cevap": "Sessiz Ortamlar"
+        },
+        {
+          "cevap": "Arkadaş  Grubu"
+        }
+      ]
+    },
+    {
+      "soruID": "16",
+      "soru": "Anne Eğitimi?",
+      "cevaplar": [
+        {
+          "cevap": "İlkokul"
+        },
+        {
+          "cevap": "Ortaokul"
+        },
+        {
+          "cevap": "Lise"
+        },
+        {
+          "cevap": "Lisans"
+        },
+        {
+          "cevap": "Yüksek Lisans"
+        },
+        {
+          "cevap": "Doktora"
+        }
+      ]
+    },
+    {
+      "soruID": "17",
+      "soru": "Baba Eğitimi?",
+      "cevaplar": [
+        {
+          "cevap": "İlkokul"
+        },
+        {
+          "cevap": "Ortaokul"
+        },
+        {
+          "cevap": "Lise"
+        },
+        {
+          "cevap": "Lisans"
+        },
+        {
+          "cevap": "Yüksek Lisans"
+        },
+        {
+          "cevap": "Doktora"
+        }
+      ]
+    },
+    {
+      "soruID": "18",
+      "soru": "Kardeş Sayısı?",
+      "cevaplar": [
+        {
+          "cevap": "Yok"
+        },
+        {
+          "cevap": "1"
+        },
+        {
+          "cevap": "2"
+        },
+        {
+          "cevap": "3"
+        },
+        {
+          "cevap": "4"
+        },
+        {
+          "cevap": "5 ve üzeri"
+        }
+      ]
+    },
+    {
+      "soruID": "19",
+      "soru": "Ebeveynlik Durumu?",
+      "cevaplar": [
+        {
+          "cevap": "Evli"
+        },
+        {
+          "cevap": "Boşanmış"
+        },
+        {
+          "cevap": "Öldü"
+        }
+      ]
+    },
+    {
+      "soruID": "20",
+      "soru": "Anne Mesleği?",
+      "cevaplar": [
+        {
+          "cevap": "Emekli"
+        },
+        {
+          "cevap": "Ev Hanımı"
+        },
+        {
+          "cevap": "Devlet Memuru"
+        },
+        {
+          "cevap": "Özel Sektör Çalışanı"
+        },
+        {
+          "cevap": "Serbest Meslek"
+        },
+        {
+          "cevap": "Diğer"
+        }
+      ]
+    },
+    {
+      "soruID": "21",
+      "soru": "Baba Mesleği?",
+      "cevaplar": [
+        {
+          "cevap": "Emekli"
+        },
+        {
+          "cevap": "Devlet Memuru"
+        },
+        {
+          "cevap": "Özel Sektör Çalışanı"
+        },
+        {
+          "cevap": "Serbest Meslek"
+        },
+        {
+          "cevap": "Diğer"
+        }
+      ]
+    },
+    {
+      "soruID": "22",
+      "soru": "Son yarıyıl genel not ortalaması(/4.00)?",
+      "cevaplar": [
+        {
+          "cevap": "<2.00"
+        },
+        {
+          "cevap": "2.00-2.49"
+        },
+        {
+          "cevap": "2.50-2.99"
+        },
+        {
+          "cevap": "3.00-3.49"
+        },
+        {
+          "cevap": "3.50 ve üstü"
+        }
+      ]
+    },
+    {
+      "soruID": "23",
+      "soru": "Mezuniyette Beklenen Not Ortalaması(/4.00)?",
+      "cevaplar": [
+        {
+          "cevap": "<2.00"
+        },
+        {
+          "cevap": "2.00-2.49"
+        },
+        {
+          "cevap": "2.50-2.99"
+        },
+        {
+          "cevap": "3.00-3.49"
+        },
+        {
+          "cevap": "3.50 ve üstü"
+        }
+      ]
+    },
+    {
+      "soruID": "24",
+      "soru": "Okuma Sıklığı(bilimsel kitap/dergi)?",
+      "cevaplar": [
+        {
+          "cevap": "Yok"
+        },
+        {
+          "cevap": "Bazen"
+        },
+        {
+          "cevap": "Sıklıkla"
+        }
+      ]
+    },
+    {
+      "soruID": "25",
+      "soru": "Ek iş durumunuz nedir?",
+      "cevaplar": [
+        {
+          "cevap": "Var"
+        },
+        {
+          "cevap": "Yok"
+        }
+      ]
+    },
+    {
+      "soruID": "26",
+      "soru": "Düzenli sanatsal veya sportif aktivite yapıyor musunuz?",
+      "cevaplar": [
+        {
+          "cevap": "Evet"
+        },
+        {
+          "cevap": "Hayır"
+        }
+      ]
+    },
+    {
+      "soruID": "27",
+      "soru": "Partneriniz var mı?",
+      "cevaplar": [
+        {
+          "cevap": "Evet"
+        },
+        {
+          "cevap": "Hayır"
+        }
+      ]
+    },
+    {
+      "soruID": "28",
+      "soru": "Haftalık çalışma saatleri?",
+      "cevaplar": [
+        {
+          "cevap": "Yok"
+        },
+        {
+          "cevap": "<5 saat"
+        },
+        {
+          "cevap": "6-10 saat"
+        },
+        {
+          "cevap": "11-20 saat"
+        },
+        {
+          "cevap": "20 saatten fazla"
+        }
+      ]
+    },
+    {
+      "soruID": "29",
+      "soru": "Arkadaşlarla dışarı çıkmak(Sayısal:1-çok düşükten 5- çok yüksek)",
+      "cevaplar": [
+        {
+          "cevap": "1"
+        },
+        {
+          "cevap": "2"
+        },
+        {
+          "cevap": "3"
+        },
+        {
+          "cevap": "4"
+        },
+        {
+          "cevap": "5"
+        }
+      ]
+    },
+    {
+      "soruID": "30",
+      "soru": "Mevcut sağlık durumu(sayısal:1-çok kötü 5- çok iyi)",
+      "cevaplar": [
+        {
+          "cevap": "1"
+        },
+        {
+          "cevap": "2"
+        },
+        {
+          "cevap": "3"
+        },
+        {
+          "cevap": "4"
+        },
+        {
+          "cevap": "5"
+        }
+      ]
     }
-
   ]
 }

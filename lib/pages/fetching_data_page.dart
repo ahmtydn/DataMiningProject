@@ -115,7 +115,7 @@ class _FetchingDataPageState extends State<FetchingDataPage> {
   }
 
   Future<void> dataSave() async {
-    var userID= await FirebaseAuth.instance.currentUser!.uid;
+    var userID=  FirebaseAuth.instance.currentUser!.uid;
 
     DateTime _time = DateTime.now();
     String nowTime="${_time.day}/${_time.month}/${_time.year}";

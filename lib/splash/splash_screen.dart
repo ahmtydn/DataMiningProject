@@ -29,18 +29,16 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Future<void> checkInternet() async {
     InternetConnectionChecker().onStatusChange.listen((status) {
-      final hasInternet = status == InternetConnectionStatus.connected;
-     setState(() {
-       this.hasInternet = hasInternet;
-     });
+      final hasInternet2 = status == InternetConnectionStatus.connected;
+      setState(() {
+        hasInternet = hasInternet2;
+      });
     });
-
-
   }
 
   void check() async {
     await checkInternet();
-    setState((){
+    setState(() {
       isLoading = false;
     });
   }
@@ -54,7 +52,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     var msg = "Google Fit Uygulamasının Yüklü Olmadığı Tespit Edildi!";
-    return isLoading||hasInternet==null
+    return isLoading || hasInternet == null
         ? Center(
             child: CircularProgressIndicator(),
           )
