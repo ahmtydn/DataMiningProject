@@ -35,7 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return isLoading
         ? Container(
             color: Colors.white,
-            child: Center(
+            child:const Center(
               child: CircularProgressIndicator(),
             ))
         : Scaffold(
@@ -47,7 +47,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
-                      decoration: BoxDecoration(
+                      decoration:const BoxDecoration(
                         color: Colors.white,
                       ),
                       width: size.width,
@@ -58,7 +58,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           Positioned(
                               top: 0,
                               bottom: 330,
-                              child: Container(
+                              child: SizedBox(
                                 width: size.width,
                                 height: size.height,
                                 child:
@@ -69,7 +69,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               child: Container(
                                 decoration: BoxDecoration(
                                     color: Colors.blueGrey.shade900,
-                                    borderRadius: BorderRadius.all(
+                                    borderRadius:const BorderRadius.all(
                                       Radius.elliptical(800, 290),
                                     )),
                                 width: size.width,
@@ -77,7 +77,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               )),
                           Positioned(
                             top: 380,
-                            child: Container(
+                            child: SizedBox(
                               width: size.width - 50,
                               height: 150,
                               child: Padding(
@@ -126,7 +126,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    SizedBox(
+                                    const  SizedBox(
                                       width: 15,
                                     ),
                                     GestureDetector(
@@ -149,19 +149,23 @@ class _LoginScreenState extends State<LoginScreen> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
                                           children: [
-                                            Image.asset(
-                                                "asset/images/google.png"),
                                             SizedBox(
+                                              width: 45,
+                                              height: 45,
+                                              child: Image.asset(
+                                                  "asset/images/fitlogo.png"),
+                                            ),
+                                           const SizedBox(
                                               width: 3,
                                             ),
-                                            Text(
-                                              "oogle ile",
+                                            const  Text(
+                                              "ile",
                                               style: TextStyle(
                                                   fontSize: 25,
                                                   fontWeight: FontWeight.w400),
                                             ),
-                                            SizedBox(width: 15,),
-                                            Text(
+                                            const   SizedBox(width: 15,),
+                                            const   Text(
                                               "Giriş",
                                               style: TextStyle(
                                                   fontSize: 25,
@@ -182,7 +186,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               onTap: () {
                                 openBrowserTab();
                               },
-                              child: Container(
+                              child: SizedBox(
                                 width: size.width - 50,
                                 height: 150,
                                 child: Padding(

@@ -1,19 +1,22 @@
 import 'dart:async';
-import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:uni_links/uni_links.dart';
 import 'package:avatar_view/avatar_view.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_web_browser/flutter_web_browser.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:verimadenciligi/auth/google_sign_in.dart';
-
+import 'package:verimadenciligi/model/data_model.dart';
+import 'package:verimadenciligi/pages/fit_data.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+
+ final DataModel data;
 
   @override
   State<HomePage> createState() => _HomePageState();
+
+ const HomePage({super.key, required this.data});
 }
 
 class _HomePageState extends State<HomePage> {
@@ -23,20 +26,23 @@ class _HomePageState extends State<HomePage> {
     sharedPreferences.setBool("isLogin", true);
   }
 
-
-  StreamSubscription? _sub;
+  StreamSubscription? sub;
 
   Future<void> initUniLinks() async {
     // ... check initialLink
 
     // Attach a listener to the stream
-    _sub = linkStream.listen((String? link) {
+    sub = linkStream.listen((String? link) {
       // Parse the link and warn the user, if it is not correct
-      if(link!=null){
-        print("listener is working");
-        var uri=Uri.parse(link);
-        if(uri.queryParameters['id']!=null) {
-          print(uri.queryParameters['id'].toString());
+      if (link != null) {
+        if (kDebugMode) {
+          print("listener is working");
+        }
+        var uri = Uri.parse(link);
+        if (uri.queryParameters['id'] != null) {
+          if (kDebugMode) {
+            print(uri.queryParameters['id'].toString());
+          }
         }
       }
     }, onError: (err) {
@@ -46,18 +52,19 @@ class _HomePageState extends State<HomePage> {
     // NOTE: Don't forget to call _sub.cancel() in dispose()
   }
 
-
   @override
   void initState() {
     saveData();
     super.initState();
     initUniLinks();
   }
+
   openBrowserTab() async {
     await FlutterWebBrowser.openWebPage(
       url: "https://www.ahmetaydin.dev",
     );
   }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -132,7 +139,7 @@ class _HomePageState extends State<HomePage> {
                               color: Colors.white,
                             )),
                         Column(
-                          children: [
+                          children: const [
                             Text(
                               "Ahmet Aydın",
                               style: TextStyle(
@@ -162,7 +169,7 @@ class _HomePageState extends State<HomePage> {
                 Positioned(
                     top: 660,
                     child: Container(
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.all(
                             Radius.circular(65),
@@ -176,7 +183,7 @@ class _HomePageState extends State<HomePage> {
                     right: 0,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
+                      children: const [
                         Text(
                           "Veriler Kaydedildi.",
                           style: TextStyle(
@@ -195,7 +202,15 @@ class _HomePageState extends State<HomePage> {
                         onPressed: () {
                           openBrowserTab();
                         },
-                        icon: Icon(Icons.phone),
+                        icon: const Icon(Icons.phone),
+                        color: Colors.blueGrey.shade900,
+                        iconSize: 50,
+                      ),
+                      IconButton(
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=> GoogleFitDataView(data: widget.data,)));
+                        },
+                        icon: const Icon(Icons.data_usage_rounded),
                         color: Colors.blueGrey.shade900,
                         iconSize: 50,
                       ),
@@ -204,7 +219,7 @@ class _HomePageState extends State<HomePage> {
                           var services = AuthServices();
                           services.logout(context);
                         },
-                        icon: Icon(Icons.exit_to_app),
+                        icon: const Icon(Icons.exit_to_app),
                         color: Colors.blueGrey.shade900,
                         iconSize: 50,
                       ),

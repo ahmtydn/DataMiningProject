@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:verimadenciligi/model/data_model.dart';
 import 'package:verimadenciligi/model/sorular_model.dart';
 import 'package:verimadenciligi/model/survey_data.dart';
 import 'package:verimadenciligi/pages/answer_page.dart';
@@ -11,7 +12,8 @@ import 'package:verimadenciligi/pages/home_page.dart';
 import 'package:verimadenciligi/pages/question_page.dart';
 
 class QuizPage extends StatefulWidget {
-  const QuizPage({Key? key}) : super(key: key);
+  const QuizPage({Key? key, required this.data}) : super(key: key);
+  final DataModel data;
 
   @override
   State<QuizPage> createState() => _QuizPageState();
@@ -67,6 +69,7 @@ class _QuizPageState extends State<QuizPage> {
               itemBuilder: (context, index) {
                 print(quizList);
                 return QuizPageHelper(
+                  dataGoogleFit: widget.data,
                     listQuiz: quizList,
                     indexZex: index,
                     size: size,
@@ -84,7 +87,7 @@ class QuizPageHelper extends StatelessWidget {
     required this.listData,
     required this.pageController,
     required this.indexZex,
-    required this.listQuiz,
+    required this.listQuiz, this.dataGoogleFit,
   }) : super(key: key);
 
   final Size size;
@@ -93,6 +96,7 @@ class QuizPageHelper extends StatelessWidget {
   final int indexZex;
   final List<SoruDatum>? listData;
   final PageController pageController;
+  final dataGoogleFit;
 
   void saveSurveyData() async {
     var userID = await FirebaseAuth.instance.currentUser!.uid;
@@ -214,7 +218,7 @@ class QuizPageHelper extends StatelessWidget {
                                 Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => HomePage()));
+                                        builder: (context) => HomePage(data: dataGoogleFit,)));
                               },
                             ).show();
                           } else {

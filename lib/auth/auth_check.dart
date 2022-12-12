@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:verimadenciligi/auth/login_screen.dart';
-import 'package:verimadenciligi/fetching/fetch_use_fake.dart';
+import 'package:verimadenciligi/pages/fetching_data_page.dart';
 
 class AuthCheck extends StatefulWidget {
   @override
@@ -25,17 +25,17 @@ class _AuthCheckState extends State<AuthCheck> {
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(
+              return const Center(
                 child: CircularProgressIndicator(),
               );
             } else if (snapshot.hasData) {
-              return FetchUseFake();
+              return const FetchingDataPage();
             } else if (snapshot.hasError) {
-              return Center(
+              return const Center(
                 child: Text("Bir hata oluştu"),
               );
             } else {
-              return LoginScreen();
+              return const LoginScreen();
             }
           },
         ));

@@ -5,13 +5,14 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:verimadenciligi/auth/auth_check.dart';
-import 'package:verimadenciligi/auth/login_screen.dart';
+
 
 class AuthServices {
   String gender = "";
   int age = 0;
 
-  final googleSignIn = GoogleSignIn(scopes: [   "https://www.googleapis.com/auth/user.gender.read",
+  final googleSignIn = GoogleSignIn(scopes: [
+    "https://www.googleapis.com/auth/user.gender.read",
     "https://www.googleapis.com/auth/user.birthday.read",
     "https://www.googleapis.com/auth/fitness.activity.read",
     "https://www.googleapis.com/auth/fitness.body.read"
@@ -44,9 +45,14 @@ class AuthServices {
     final response = json.decode(r.body);
     print(response);
     int dateNowYear = DateTime.now().year;
+    try{
+      int year = response["birthdays"][1]["date"]["year"];
+      age = dateNowYear - year;
+    }catch(e){
+      int year = response["birthdays"][0]["date"]["year"];
+      age = dateNowYear - year;
+    }
 
-    int year = response["birthdays"][0]["date"]["year"];
-    age = dateNowYear - year;
   }
 
   void googleLogin() async {
