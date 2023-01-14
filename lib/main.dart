@@ -6,18 +6,16 @@ import 'package:provider/provider.dart';
 import 'package:verimadenciligi/provider/provider.dart';
 import 'package:verimadenciligi/splash/splash_screen.dart';
 
-
-
 const AndroidNotificationChannel channel = AndroidNotificationChannel(
     'high_importance_channel', // id
     'High Importance Notifications', // title
     description:
-    'This channel is used for important notifications.', // description
+        'This channel is used for important notifications.', // description
     importance: Importance.high,
     playSound: true);
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-FlutterLocalNotificationsPlugin();
+    FlutterLocalNotificationsPlugin();
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
@@ -32,7 +30,7 @@ Future main() async {
 
   await flutterLocalNotificationsPlugin
       .resolvePlatformSpecificImplementation<
-      AndroidFlutterLocalNotificationsPlugin>()
+          AndroidFlutterLocalNotificationsPlugin>()
       ?.createNotificationChannel(channel);
 
   await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
@@ -52,10 +50,8 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
   @override
   void initState() {
-
     super.initState();
 
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
@@ -101,25 +97,21 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [
-        ChangeNotifierProvider (create: (_) => DataMiningProvider()),
-      ],
-    builder: (context, child) {
-     return MaterialApp(
-        title: 'Veri Seti',
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        home: const SplashScreen(),
-      );
-    }
-    );
+        providers: [
+          ChangeNotifierProvider(create: (_) => DataMiningProvider()),
+        ],
+        builder: (context, child) {
+          return MaterialApp(
+            title: 'Veri Seti',
+            debugShowCheckedModeBanner: false,
+            theme: ThemeData(
+              primarySwatch: Colors.blue,
+            ),
+            home: const SplashScreen(),
+          );
+        });
   }
 }
-
-

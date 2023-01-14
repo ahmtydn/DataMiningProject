@@ -123,4 +123,5 @@ class FetchData {
     var sharedPreferences = await SharedPreferences.getInstance();
     return sharedPreferences.getString("gender");
   }
+
 }

@@ -1,7 +1,10 @@
 import 'dart:convert';
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:device_apps/device_apps.dart';
+import 'package:external_app_launcher/external_app_launcher.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:app_usage/app_usage.dart';
 import 'package:device_info_plus/device_info_plus.dart';
@@ -11,6 +14,7 @@ import 'package:package_usage_stats/package_usage_stats.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:verimadenciligi/auth/google_sign_in.dart';
 import 'package:verimadenciligi/fetching/fetch_data.dart';
 import 'package:verimadenciligi/model/data_model.dart';
 import 'package:verimadenciligi/pages/quiz_page.dart';
@@ -29,78 +33,122 @@ class _FetchingDataPageState extends State<FetchingDataPage>
   //#region definitions
   DataModel? _dataModel;
   bool isLoading = true;
-  DatabaseReference? referenceData;
-  DatabaseReference? referenceChild;
-  List<InfoAppUse> _infosApps = [];
-  List<AppsCategory> _categoryApps = [];
+  List<InfoAppUse> infosApps = [];
+  List<AppsCategory> categoryApps = [];
   List<AppUsageInfo> infoList = [];
   List<Application> apps = [];
   String? dataID;
   bool? isLoginShared;
+  String? steps;
+  String? height;
+  String? weight;
+  String? energyBurned;
+  String? bodyMassIndex;
+  String? age;
+  String? genders;
+  String? phoneModel;
+
   //#endregion
 
   //#region  Fetching
   Future<void> fetchsData() async {
-    var _steps,
-        _height,
-        _weight,
-        _energyBurned,
-        BodyMassIndex,
-        _age,
-        _genders,
-        _phoneModel;
-
     // ignore: use_build_context_synchronously
     await FetchData()
         .fetchStepData(context)
-        .then((value) => _steps = value.toString());
+        .then((value) => steps = value.toString());
     // ignore: use_build_context_synchronously
     await FetchData()
         .fetchHeight(context)
-        .then((value) => _height = value.toString().substring(0, 4));
+        .then((value) => height = value.toString().substring(0, 4));
     // ignore: use_build_context_synchronously
     await FetchData()
         .fetchWeight(context)
-        .then((value) => _weight = value.toString());
+        .then((value) => weight = value.toString());
     // ignore: use_build_context_synchronously
     await FetchData()
         .fetchEnergyBurned(context)
-        .then((value) => _energyBurned = value.toString());
+        .then((value) => energyBurned = value.toString());
     // ignore: use_build_context_synchronously
     await FetchData()
         .fetchBodyIndex(context)
-        .then((value) => BodyMassIndex = value.toString());
+        .then((value) => bodyMassIndex = value.toString());
     await FetchData()
         .ageReadSharedPreferences()
-        .then((value) => _age = value.toString());
+        .then((value) => age = value.toString());
     await FetchData()
         .genderReadSharedPreferences()
-        .then((value) => _genders = value.toString());
-    await deviceInfoGet().then((value) => _phoneModel = value.toString());
+        .then((value) => genders = value.toString());
+    await deviceInfoGet().then((value) => phoneModel = value.toString());
+
     DateTime time = DateTime.now();
-
-    _dataModel = DataModel(
-      stepsTotal: _steps,
-      height: _height,
-      weight: _weight,
-      energyBurned: _energyBurned,
-      bodyMassIndex: BodyMassIndex,
-      age: _age,
-      gender: _genders,
-      phoneModel: _phoneModel,
-      infoAppUse: _infosApps,
-      saveTime: time,
-      appsCategory: _categoryApps,
-    );
-
-    save();
+    if (height == "null" || weight == "null" || bodyMassIndex == "null") {
+      _dataModel = DataModel(
+        stepsTotal: steps ?? "0",
+        height: height ?? "0",
+        weight: weight ?? "0",
+        energyBurned: energyBurned ?? "0",
+        bodyMassIndex: bodyMassIndex ?? "0",
+        age: age ?? "0",
+        gender: genders ?? "Bilinmiyor",
+        phoneModel: phoneModel ?? "Bilinmiyor",
+        infoAppUse: infosApps,
+        saveTime: time,
+        appsCategory: categoryApps,
+      );
+      await AwesomeDialog(
+        context: context,
+        btnCancelText: "Çıkış",
+        btnCancelOnPress: () {
+          var services = AuthServices();
+          services.logout(context);
+        },
+        dialogType: DialogType.error,
+        btnOkColor: Colors.red,
+        headerAnimationLoop: true,
+        titleTextStyle: const TextStyle(
+            fontSize: 22, fontWeight: FontWeight.w600, color: Colors.red),
+        btnOkText: "Tamam",
+        descTextStyle: const TextStyle(
+            fontSize: 17, color: Colors.black, fontWeight: FontWeight.w600),
+        animType: AnimType.bottomSlide,
+        dialogBackgroundColor: Colors.white,
+        title: "Google Fit uygulamasından veri alınırken sorunla karşılaşıldı!",
+        desc:
+            "${FirebaseAuth.instance.currentUser!.email} ile Google Fit Uygulamasında oturum açarak, 'Boy,Kilo,Cinsiyet ve Doğum Tarihi' bilgilerini girmeniz gerekiyor. "
+            "\n\n\nGoogle Fit Uygulamasına yönlendirilmek için 'Tamam' butonuna basınız\n\n'Çıkış' Butonuna basarak çıkış yapabilir ve farklı hesapla tekrar giriş yapmayı deneyebilirsiniz.",
+        buttonsTextStyle: const TextStyle(color: Colors.white),
+        dismissOnTouchOutside: false,
+        btnOkOnPress: () async {
+          await LaunchApp.openApp(
+              androidPackageName: 'com.google.android.apps.fitness');
+          SystemNavigator.pop();
+        },
+      ).show();
+    } else {
+      _dataModel = DataModel(
+        stepsTotal: steps!,
+        height: height!,
+        weight: weight!,
+        energyBurned: energyBurned!,
+        bodyMassIndex: bodyMassIndex!,
+        age: age!,
+        gender: genders!,
+        phoneModel: phoneModel!,
+        infoAppUse: infosApps,
+        saveTime: time,
+        appsCategory: categoryApps,
+      );
+      save();
+    }
   }
 
   Future<void> fetchDataMain() async {
     await fetchsData();
-    setState(() {
-      isLoading = false;
-    });
+    if (mounted) {
+      setState(() {
+        isLoading = false;
+      });
+    }
   }
 
   Future<String> deviceInfoGet() async {
@@ -114,7 +162,7 @@ class _FetchingDataPageState extends State<FetchingDataPage>
     apps = await DeviceApps.getInstalledApplications();
     List.generate(
         apps.length,
-        (index) => _categoryApps.add(AppsCategory(
+        (index) => categoryApps.add(AppsCategory(
             appName: apps[index].appName.toString(),
             category: apps[index].category.name.toString())));
   }
@@ -126,31 +174,41 @@ class _FetchingDataPageState extends State<FetchingDataPage>
   Future<void> dataSave() async {
     var userID = FirebaseAuth.instance.currentUser!.uid;
 
-    DateTime _time = DateTime.now();
-    String nowTime = "${_time.day}/${_time.month}/${_time.year}";
-    print("Şimdiki zaman: $nowTime");
+    DateTime time = DateTime.now();
+    String nowTime = "${time.day}/${time.month}/${time.year}";
+    if (kDebugMode) {
+      print("Şimdiki zaman: $nowTime");
+    }
     bool sharedPermission = await checkSharedPrefences(nowTime);
     if (!sharedPermission) {
       //the first data of the day is saved
       var jsonData = jsonEncode(_dataModel!);
       var url =
-          "https://datamining-367013-default-rtdb.firebaseio.com/Data/${userID}/dailyData.json";
+          "https://datamining-367013-default-rtdb.firebaseio.com/Data/$userID/dailyData.json";
       var httpClient = http.Client();
       var response = await httpClient.post(Uri.parse(url), body: jsonData);
       var id = response.body.substring(9, 29);
       await removeShared();
       saveSharedPrefences(dataID: id, time: nowTime);
-      print("response id: ${id}");
-      print(jsonData);
+      if (kDebugMode) {
+        print("response id: $id");
+      }
+      if (kDebugMode) {
+        print(jsonData);
+      }
     } else {
       //update data
       var jsonData = jsonEncode(_dataModel!);
-      print(dataID);
+      if (kDebugMode) {
+        print(dataID);
+      }
       var url =
-          "https://datamining-367013-default-rtdb.firebaseio.com/Data/${userID}/dailyData/${dataID}.json";
+          "https://datamining-367013-default-rtdb.firebaseio.com/Data/$userID/dailyData/$dataID.json";
       var httpClient = http.Client();
       await httpClient.put(Uri.parse(url), body: jsonData);
-      print(jsonData);
+      if (kDebugMode) {
+        print(jsonData);
+      }
     }
   }
 
@@ -197,7 +255,7 @@ class _FetchingDataPageState extends State<FetchingDataPage>
 
         List.generate(
             infoList.length,
-            (index) => _infosApps.add(InfoAppUse(
+            (index) => infosApps.add(InfoAppUse(
                 appName: infoList[index].appName.toString(),
                 appUseTime: infoList[index].usage.toString())));
       } else {

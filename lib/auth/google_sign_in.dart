@@ -1,11 +1,11 @@
 import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:verimadenciligi/auth/auth_check.dart';
-
 
 class AuthServices {
   String gender = "";
@@ -43,16 +43,17 @@ class AuthServices {
       headers: await user.authHeaders,
     );
     final response = json.decode(r.body);
-    print(response);
+    if (kDebugMode) {
+      print(response);
+    }
     int dateNowYear = DateTime.now().year;
-    try{
+    try {
       int year = response["birthdays"][1]["date"]["year"];
       age = dateNowYear - year;
-    }catch(e){
+    } catch (e) {
       int year = response["birthdays"][0]["date"]["year"];
       age = dateNowYear - year;
     }
-
   }
 
   void googleLogin() async {
@@ -62,6 +63,8 @@ class AuthServices {
       _user = googleUser;
       final googleAuth = await googleUser.authentication;
 
+      GoogleSignInAuthentication googleSignInAuthentication;
+
       final credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
@@ -69,22 +72,27 @@ class AuthServices {
       await getGender();
       await getBirthday();
       await saveData();
-      await FirebaseAuth.instance.signInWithCredential(credential);
+      final user = await FirebaseAuth.instance.signInWithCredential(credential);
     } catch (e) {
-      print(e.toString());
+      if (kDebugMode) {
+        print(e.toString());
+      }
     }
   }
 
   Future<void> saveData() async {
     var sharedPreferences = await SharedPreferences.getInstance();
-
     sharedPreferences.setString("age", age.toString());
     sharedPreferences.setString("gender", gender.toString());
   }
 
   Future<void> logout(BuildContext context) async {
     await googleSignIn.disconnect();
-   await  FirebaseAuth.instance.signOut();
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>AuthCheck()));
+    await FirebaseAuth.instance.signOut();
+
+    // var sharedPreferences = await SharedPreferences.getInstance();
+    // sharedPreferences.remove("isLogin");
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => AuthCheck()));
   }
 }
